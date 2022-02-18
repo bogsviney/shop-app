@@ -20,6 +20,7 @@ public class DeleteProductServlet extends HttpServlet {
         int index = pathInformation.lastIndexOf("/");
         int id = Integer.valueOf(pathInformation.substring(index + 1, pathInformation.length()));
         productService.delete(id);
+        System.out.println("DELETE product with id: " + id);
         response.sendRedirect("/products");
     }
 }

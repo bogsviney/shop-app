@@ -17,8 +17,8 @@ public class PropertiesReader {
     }
 
     private void readProperties(String path) {
-        try {
-            properties.load(new FileReader(path));
+        try (InputStream resource = getClass().getClassLoader().getResourceAsStream(path)) {
+            properties.load(resource);
         } catch (IOException e) {
             throw new RuntimeException("CANNOT READ PROPERTIES by " + path, e);
         }

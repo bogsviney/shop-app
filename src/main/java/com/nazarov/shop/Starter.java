@@ -7,13 +7,12 @@ import com.nazarov.shop.service.ProductService;
 import com.nazarov.shop.web.servlets.*;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.*;
-
 import java.util.Properties;
 
 public class Starter {
     public static void main(String[] args) throws Exception {
 
-        PropertiesReader propertiesReader = new PropertiesReader("src/main/resources/application.properties");
+        PropertiesReader propertiesReader = new PropertiesReader("application.properties");
 
         Properties properties = propertiesReader.getProperties();
 

@@ -27,6 +27,7 @@ public class SaveProductServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Product product = getProductFromRequest(request);
         productService.save(product);
+        System.out.println("NEW PRODUCT ADDED");
         response.sendRedirect("/products");
     }
 
