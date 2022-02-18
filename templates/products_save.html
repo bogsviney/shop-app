@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Add product</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+</head>
+<body>
+
+<form action="/products" target="_self" style="float: right; margin-left: 60px;">
+    <button  class="btn btn-dark">Return to products</button>
+</form>
+<h1 align="center">Please add your product below</h1>
+<form action="/products/add" method="POST">
+    <div class="form-group">
+        <label for="inputName">Name</label>
+        <input type="text" class="form-control" id="inputName" required name="name">
+        <label for="inputPrice">Price</label>
+        <input type="number" class="form-control" id="inputPrice" step=".01" min="0" value="0" name="price">
+        <br>
+        <input type="submit" class="btn btn-dark" value="Add">
+    </div>
+</form>
+</body>
+</html>
