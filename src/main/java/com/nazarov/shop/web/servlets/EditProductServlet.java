@@ -11,17 +11,18 @@ import java.util.*;
 
 public class EditProductServlet extends HttpServlet {
 
+    private final List<String> userTokens;
     private ProductService productService;
+    public SecurityAuthChecker securityAuthChecker = new SecurityAuthChecker();
 
-    public EditProductServlet() {
-    }
-
-    public EditProductServlet(ProductService productService) {
+    public EditProductServlet(ProductService productService, List<String> userTokens) {
         this.productService = productService;
+        this.userTokens = userTokens;
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, IOException {
+        if (securityAuthChecker.checkUserAuthorization(request, userTokens)) {
         PageGenerator pageGenerator = PageGenerator.instance();
         int id = Integer.parseInt(request.getParameter("id"));
         System.out.println("Edit product with id: " + id);
@@ -30,6 +31,9 @@ public class EditProductServlet extends HttpServlet {
         parameters.put("product", productToEdit);
         String page = pageGenerator.getPage("products_edit.html", parameters);
         response.getWriter().write(page);
+        } else {
+            response.sendRedirect("/login");
+        }
     }
 
     @Override
@@ -48,7 +52,7 @@ public class EditProductServlet extends HttpServlet {
         return id;
     }
 
-    private Product getProductFromRequest(HttpServletRequest request){
+    private Product getProductFromRequest(HttpServletRequest request) {
         return Product.builder()
                 .id(Integer.parseInt(request.getParameter("id")))
                 .name(request.getParameter("name"))

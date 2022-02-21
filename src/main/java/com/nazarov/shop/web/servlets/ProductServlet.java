@@ -10,10 +10,12 @@ import java.util.*;
 
 public class ProductServlet extends HttpServlet {
 
+    private List<String> userTokens;
     private ProductService productService;
 
-    public ProductServlet(ProductService productService) {
+    public ProductServlet(ProductService productService, List<String> userTokens) {
         this.productService = productService;
+        this.userTokens = userTokens;
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {

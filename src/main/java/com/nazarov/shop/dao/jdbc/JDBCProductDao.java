@@ -9,23 +9,24 @@ import java.util.*;
 
 public class JDBCProductDao implements ProductDao {
 
-    private final ConnectionFactory connectionFactory;
+    private final ConnectionFactory CONNECTION_FACTORY;
     private static final ProductRowMapper PRODUCT_ROW_MAPPER = new ProductRowMapper();
     private static final String FIND_BY_ID = "SELECT id, name, price FROM products WHERE id =?;";
     private static final String FIND_ALL = "SELECT id, name, price FROM products;";
     private static final String ADD = """
             INSERT INTO products (name, price)
+            
             VALUES(?, ?);""";
     private static final String EDIT = "UPDATE products SET name = ?, price = ? WHERE id = ?;";
     private static final String DELETE_BY_ID = "DELETE FROM products WHERE id = ?;";
 
     public JDBCProductDao(ConnectionFactory connectionFactory) {
-        this.connectionFactory = connectionFactory;
+        this.CONNECTION_FACTORY = connectionFactory;
     }
 
     @Override
     public List<Product> findAll() {
-        try (Connection connection = connectionFactory.getConnection();
+        try (Connection connection = CONNECTION_FACTORY.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL);
              ResultSet resultSet = preparedStatement.executeQuery()) {
             List<Product> products = new ArrayList<>();
@@ -42,7 +43,7 @@ public class JDBCProductDao implements ProductDao {
 
     @Override
     public void save(Product product) {
-        try (Connection connection = connectionFactory.getConnection();
+        try (Connection connection = CONNECTION_FACTORY.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(ADD)) {
             preparedStatement.setString(1, product.getName());
             preparedStatement.setDouble(2, product.getPrice());
@@ -55,7 +56,7 @@ public class JDBCProductDao implements ProductDao {
 
     @Override
     public void edit(Product product) {
-        try (Connection connection = connectionFactory.getConnection();
+        try (Connection connection = CONNECTION_FACTORY.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(EDIT)) {
             preparedStatement.setString(1, product.getName());
             preparedStatement.setDouble(2, product.getPrice());
@@ -69,7 +70,7 @@ public class JDBCProductDao implements ProductDao {
 
     @Override
     public void delete(int id) {
-        try (Connection connection = connectionFactory.getConnection();
+        try (Connection connection = CONNECTION_FACTORY.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(DELETE_BY_ID)) {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
@@ -82,7 +83,7 @@ public class JDBCProductDao implements ProductDao {
 
     @Override
     public Product findById(int id) {
-        try (Connection connection = connectionFactory.getConnection();
+        try (Connection connection = CONNECTION_FACTORY.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_ID);) {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();

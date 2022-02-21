@@ -1,17 +1,19 @@
 package com.nazarov.shop.web.util;
 
+import com.nazarov.shop.config.PropertiesReader;
 import freemarker.template.*;
+
 import java.io.*;
 import java.util.*;
 
 public class PageGenerator {
-
-    private static final String HTML_DIR = "templates";
-
+    private static PropertiesReader propertiesReader = new PropertiesReader("application.properties");
+    private static String HTML_DIR = propertiesReader.getProperties().getProperty("html.directory");
     private static PageGenerator pageGenerator;
-    private final Configuration configuration;
+    private final Configuration CONFIGURATION;
+
     private PageGenerator() {
-        configuration = new Configuration();
+        CONFIGURATION = new Configuration();
     }
 
     public static PageGenerator instance() {
@@ -27,7 +29,7 @@ public class PageGenerator {
     public String getPage(String path, Map<String, Object> data) {
         Writer stream = new StringWriter();
         try {
-            Template template = configuration.getTemplate(HTML_DIR + File.separator + path);
+            Template template = CONFIGURATION.getTemplate(HTML_DIR + File.separator + path);
             template.process(data, stream);
         } catch (IOException | TemplateException e) {
             throw new RuntimeException(e);

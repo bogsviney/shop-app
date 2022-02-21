@@ -7,6 +7,9 @@ import com.nazarov.shop.service.ProductService;
 import com.nazarov.shop.web.servlets.*;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.*;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 public class Starter {
@@ -26,16 +29,21 @@ public class Starter {
 
         ProductService service = new ProductService(productDao);
 
-        ProductServlet productServlet = new ProductServlet(service);
 
-        SaveProductServlet saveProductServlet = new SaveProductServlet(service);
+        List<String> userTokens = new ArrayList<>();
+        LoginServlet loginServlet = new LoginServlet(userTokens);
 
-        DeleteProductServlet deleteProductServlet = new DeleteProductServlet(service);
+        ProductServlet productServlet = new ProductServlet(service, userTokens);
 
-        EditProductServlet editProductServlet = new EditProductServlet(service);
+        SaveProductServlet saveProductServlet = new SaveProductServlet(service, userTokens);
+
+        DeleteProductServlet deleteProductServlet = new DeleteProductServlet(service, userTokens);
+
+        EditProductServlet editProductServlet = new EditProductServlet(service, userTokens);
 
         ServletContextHandler contextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
 
+        contextHandler.addServlet(new ServletHolder(loginServlet), "/login");
         contextHandler.addServlet(new ServletHolder(productServlet), "/products");
         contextHandler.addServlet(new ServletHolder(saveProductServlet), "/products/add");
         contextHandler.addServlet(new ServletHolder(editProductServlet), "/products/edit/*");
