@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class DeleteProductServlet extends HttpServlet {
+
     private final List<String> userTokens;
     private ProductService productService;
     public SecurityAuthChecker securityAuthChecker = new SecurityAuthChecker();
