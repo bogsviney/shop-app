@@ -21,7 +21,7 @@ public class DeleteProductServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (securityAuthChecker.checkUserAuthorization(request, userTokens)) {
+        if (securityAuthChecker.checkUserToken(request, userTokens)) {
             String pathInformation = request.getPathInfo();
             int index = pathInformation.lastIndexOf("/");
             int id = Integer.valueOf(pathInformation.substring(index + 1, pathInformation.length()));

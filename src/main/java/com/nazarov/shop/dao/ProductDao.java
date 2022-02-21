@@ -13,5 +13,5 @@ public interface ProductDao {
 
     void delete(int id);
 
-    public Product findById(int id);
+    Product findById(int id);
 }

@@ -5,7 +5,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public class SecurityAuthChecker {
-    public boolean checkUserAuthorization(HttpServletRequest request, List<String> userTokens) {
+
+
+    public boolean checkUserToken(HttpServletRequest request, List<String> userTokens) {
         boolean isAuth = false;
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
@@ -20,4 +22,8 @@ public class SecurityAuthChecker {
         }
         return isAuth;
     }
+
+
+
+
 }

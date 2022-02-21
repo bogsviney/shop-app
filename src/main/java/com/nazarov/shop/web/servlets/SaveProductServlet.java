@@ -24,7 +24,7 @@ public class SaveProductServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (securityAuthChecker.checkUserAuthorization(request, userTokens)) {
+        if (securityAuthChecker.checkUserToken(request, userTokens)) {
             PageGenerator pageGenerator = PageGenerator.instance();
             String page = pageGenerator.getPage("products_save.html");
             response.getWriter().write(page);
