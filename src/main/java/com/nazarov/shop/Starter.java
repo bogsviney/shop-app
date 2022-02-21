@@ -29,7 +29,6 @@ public class Starter {
 
         ProductService service = new ProductService(productDao);
 
-
         List<String> userTokens = new ArrayList<>();
         LoginServlet loginServlet = new LoginServlet(userTokens);
 
