@@ -2,6 +2,7 @@ package com.nazarov.shop.web.servlets;
 
 import com.nazarov.shop.entity.Product;
 import com.nazarov.shop.service.ProductService;
+import com.nazarov.shop.web.servlets.security.SecurityAuthChecker;
 import com.nazarov.shop.web.util.PageGenerator;
 
 import javax.servlet.*;
