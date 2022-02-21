@@ -11,7 +11,7 @@ import java.sql.SQLException;
 public class JDBCUserDao implements UserDao {
 
     private final ConnectionFactory CONNECTION_FACTORY;
-    private static final String FIND_USER_PASSWORD_BY_EMAIL = "SELECT password FROM users WHERE email =?;";
+    private static final String FIND_USER_PASSWORD_BY_EMAIL = "SELECT * FROM users WHERE email =? AND password =?;";
 
     public JDBCUserDao(ConnectionFactory connectionFactory) {
         this.CONNECTION_FACTORY = connectionFactory;
@@ -29,6 +29,7 @@ public class JDBCUserDao implements UserDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        System.out.println("ACCESS ENABLE : " + isChecked);
         return isChecked;
     }
 }

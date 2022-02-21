@@ -3,7 +3,9 @@ package com.nazarov.shop;
 import com.nazarov.shop.config.PropertiesReader;
 import com.nazarov.shop.dao.*;
 import com.nazarov.shop.dao.jdbc.JDBCProductDao;
+import com.nazarov.shop.dao.jdbc.JDBCUserDao;
 import com.nazarov.shop.service.ProductService;
+import com.nazarov.shop.service.UserService;
 import com.nazarov.shop.web.servlets.*;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.*;
@@ -26,11 +28,13 @@ public class Starter {
                 );
 
         ProductDao productDao = new JDBCProductDao(connectionFactory);
+        UserDao userDao = new JDBCUserDao(connectionFactory);
 
         ProductService service = new ProductService(productDao);
+        UserService userService = new UserService(userDao);
 
         List<String> userTokens = new ArrayList<>();
-        LoginServlet loginServlet = new LoginServlet(userTokens);
+        LoginServlet loginServlet = new LoginServlet(userService,userTokens);
 
         ProductServlet productServlet = new ProductServlet(service, userTokens);
 

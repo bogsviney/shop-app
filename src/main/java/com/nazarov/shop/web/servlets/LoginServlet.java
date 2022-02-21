@@ -1,8 +1,5 @@
 package com.nazarov.shop.web.servlets;
 
-import com.nazarov.shop.dao.ConnectionFactory;
-import com.nazarov.shop.dao.UserDao;
-import com.nazarov.shop.dao.jdbc.JDBCUserDao;
 import com.nazarov.shop.service.ProductService;
 import com.nazarov.shop.service.UserService;
 import com.nazarov.shop.web.util.PageGenerator;
@@ -18,13 +15,12 @@ import java.util.UUID;
 
 public class LoginServlet extends HttpServlet {
 
-    private ConnectionFactory CONNECTION_FACTORY;
     private final List<String> userTokens;
     private ProductService productService;
-    private UserDao userDao = new JDBCUserDao(CONNECTION_FACTORY);
-    private UserService userService = new UserService(userDao);
+    private UserService userService;
 
-    public LoginServlet(List<String> userTokens) {
+    public LoginServlet(UserService userService, List<String> userTokens) {
+        this.userService = userService;
         this.userTokens = userTokens;
     }
 
@@ -45,13 +41,13 @@ public class LoginServlet extends HttpServlet {
         System.out.println("PASSWORD: " + password);
         System.out.println("USER TOKEN:" + userToken);
 
-        if (userService.checkUser(email,password)) {
+        if (userService.checkUser(email, password)) {
             userTokens.add(userToken);
             Cookie cookie = new Cookie("user-token", userToken);
             response.addCookie(cookie);
             System.out.println("LOGGED IN! WELLCOME!");
             response.sendRedirect("/products");
-        }else {
+        } else {
             System.out.println("PASSWORD IS INCORRECT");
             response.sendRedirect("/login");
         }
