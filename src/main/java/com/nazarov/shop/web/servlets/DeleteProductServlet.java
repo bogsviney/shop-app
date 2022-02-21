@@ -1,6 +1,7 @@
 package com.nazarov.shop.web.servlets;
 
 import com.nazarov.shop.service.ProductService;
+import com.nazarov.shop.web.servlets.security.SecurityAuthChecker;
 
 import javax.servlet.*;
 import javax.servlet.http.*;

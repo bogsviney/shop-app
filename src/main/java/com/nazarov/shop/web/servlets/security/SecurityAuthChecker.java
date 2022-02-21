@@ -1,4 +1,4 @@
-package com.nazarov.shop.web.servlets;
+package com.nazarov.shop.web.servlets.security;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
