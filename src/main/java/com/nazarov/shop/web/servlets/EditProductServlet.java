@@ -2,28 +2,27 @@ package com.nazarov.shop.web.servlets;
 
 import com.nazarov.shop.entity.Product;
 import com.nazarov.shop.service.ProductService;
-import com.nazarov.shop.web.servlets.security.SecurityAuthChecker;
+import com.nazarov.shop.service.security.SecurityService;
 import com.nazarov.shop.web.util.PageGenerator;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.util.*;
 
 public class EditProductServlet extends HttpServlet {
 
-    private final List<String> userTokens;
     private ProductService productService;
-    public SecurityAuthChecker securityAuthChecker = new SecurityAuthChecker();
+    public SecurityService securityService;
 
-    public EditProductServlet(ProductService productService, List<String> userTokens) {
+    public EditProductServlet(ProductService productService, SecurityService securityService) {
         this.productService = productService;
-        this.userTokens = userTokens;
+        this.securityService = securityService;
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, IOException {
-        if (securityAuthChecker.checkUserToken(request, userTokens)) {
+        if (securityService.checkUserToken(request, securityService.getUserTokens())) {
         PageGenerator pageGenerator = PageGenerator.instance();
         int id = Integer.parseInt(request.getParameter("id"));
         System.out.println("Edit product with id: " + id);

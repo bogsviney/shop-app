@@ -2,16 +2,14 @@ package com.nazarov.shop;
 
 import com.nazarov.shop.config.PropertiesReader;
 import com.nazarov.shop.dao.*;
-import com.nazarov.shop.dao.jdbc.JDBCProductDao;
-import com.nazarov.shop.dao.jdbc.JDBCUserDao;
-import com.nazarov.shop.service.ProductService;
-import com.nazarov.shop.service.UserService;
+import com.nazarov.shop.dao.jdbc.*;
+import com.nazarov.shop.service.*;
 import com.nazarov.shop.web.servlets.*;
+import com.nazarov.shop.service.security.SecurityService;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.*;
 
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.Properties;
 
 public class Starter {
@@ -26,23 +24,31 @@ public class Starter {
                         properties.getProperty("db.username"),
                         properties.getProperty("db.password")
                 );
+//
+//        Flyway flyway =
+//                Flyway.configure().dataSource(properties.getProperty("db.url"),
+//                        properties.getProperty("db.username"),
+//                        properties.getProperty("db.password")).load();
+//        flyway.migrate();
+
 
         ProductDao productDao = new JDBCProductDao(connectionFactory);
         UserDao userDao = new JDBCUserDao(connectionFactory);
 
-        ProductService service = new ProductService(productDao);
+        ProductService productService = new ProductService(productDao);
         UserService userService = new UserService(userDao);
 
-        List<String> userTokens = new ArrayList<>();
-        LoginServlet loginServlet = new LoginServlet(userService,userTokens);
+        SecurityService securityService = new SecurityService();
 
-        ProductServlet productServlet = new ProductServlet(service, userTokens);
+        LoginServlet loginServlet = new LoginServlet(userService, securityService);
 
-        SaveProductServlet saveProductServlet = new SaveProductServlet(service, userTokens);
+        ProductServlet productServlet = new ProductServlet(productService);
 
-        DeleteProductServlet deleteProductServlet = new DeleteProductServlet(service, userTokens);
+        SaveProductServlet saveProductServlet = new SaveProductServlet(productService, securityService);
 
-        EditProductServlet editProductServlet = new EditProductServlet(service, userTokens);
+        DeleteProductServlet deleteProductServlet = new DeleteProductServlet(productService, securityService);
+
+        EditProductServlet editProductServlet = new EditProductServlet(productService, securityService);
 
         ServletContextHandler contextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
 

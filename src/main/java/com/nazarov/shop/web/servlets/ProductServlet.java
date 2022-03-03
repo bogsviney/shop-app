@@ -4,18 +4,16 @@ import com.nazarov.shop.entity.Product;
 import com.nazarov.shop.service.ProductService;
 import com.nazarov.shop.web.util.PageGenerator;
 
-import javax.servlet.http.*;
+import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.util.*;
 
 public class ProductServlet extends HttpServlet {
 
-    private List<String> userTokens;
-    private ProductService productService;
+    private final ProductService productService;
 
-    public ProductServlet(ProductService productService, List<String> userTokens) {
+    public ProductServlet(ProductService productService) {
         this.productService = productService;
-        this.userTokens = userTokens;
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {

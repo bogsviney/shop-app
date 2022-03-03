@@ -1,30 +1,29 @@
 package com.nazarov.shop.web.servlets;
 
 import com.nazarov.shop.service.ProductService;
-import com.nazarov.shop.web.servlets.security.SecurityAuthChecker;
+import com.nazarov.shop.service.security.SecurityService;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.*;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
 import java.io.IOException;
-import java.util.List;
 
 public class DeleteProductServlet extends HttpServlet {
 
-    private final List<String> userTokens;
-    private ProductService productService;
-    public SecurityAuthChecker securityAuthChecker = new SecurityAuthChecker();
 
-    public DeleteProductServlet(ProductService productService, List<String> userTokens) {
+    private ProductService productService;
+    public SecurityService securityService;
+
+    public DeleteProductServlet(ProductService productService, SecurityService securityService) {
         this.productService = productService;
-        this.userTokens = userTokens;
+        this.securityService = securityService;
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (securityAuthChecker.checkUserToken(request, userTokens)) {
+        if (securityService.checkUserToken(request, securityService.getUserTokens())) {
             String pathInformation = request.getPathInfo();
             int index = pathInformation.lastIndexOf("/");
-            int id = Integer.valueOf(pathInformation.substring(index + 1, pathInformation.length()));
+            int id = Integer.parseInt(pathInformation.substring(index + 1));
             productService.delete(id);
             System.out.println("DELETE product with id: " + id);
             response.sendRedirect("/products");

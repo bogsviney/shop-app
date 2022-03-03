@@ -9,11 +9,13 @@ public class ProductRowMapper {
         int id = resultSet.getInt("id");
         double price = resultSet.getDouble("price");
         String name = resultSet.getString("name");
+        Timestamp creationDate = resultSet.getTimestamp("date");
 
         Product product = Product.builder()
                 .id(id)
                 .name(name)
                 .price(price)
+                .creationDate(creationDate.toLocalDateTime())
                 .build();
         return product;
     }

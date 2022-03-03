@@ -4,23 +4,23 @@ import com.nazarov.shop.dao.*;
 import com.nazarov.shop.dao.jdbc.mapper.ProductRowMapper;
 import com.nazarov.shop.entity.Product;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.*;
 
 public class JDBCProductDao implements ProductDao {
 
-    private final ConnectionFactory CONNECTION_FACTORY;
+    private final DataSource CONNECTION_FACTORY;
     private static final ProductRowMapper PRODUCT_ROW_MAPPER = new ProductRowMapper();
-    private static final String FIND_BY_ID = "SELECT id, name, price FROM products WHERE id =?;";
-    private static final String FIND_ALL = "SELECT id, name, price FROM products;";
+    private static final String FIND_BY_ID = "SELECT id, name, price, date FROM products WHERE id =?;";
+    private static final String FIND_ALL = "SELECT id, name, price, date FROM products;";
     private static final String ADD = """
-            INSERT INTO products (name, price)
-            
-            VALUES(?, ?);""";
+            INSERT INTO products (name, price, date)
+            VALUES(?, ?, ?);""";
     private static final String EDIT = "UPDATE products SET name = ?, price = ? WHERE id = ?;";
     private static final String DELETE_BY_ID = "DELETE FROM products WHERE id = ?;";
 
-    public JDBCProductDao(ConnectionFactory connectionFactory) {
+    public JDBCProductDao(DataSource connectionFactory) {
         this.CONNECTION_FACTORY = connectionFactory;
     }
 
@@ -37,8 +37,8 @@ public class JDBCProductDao implements ProductDao {
             return products;
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new RuntimeException("Cannot find products", e);
         }
-        return null;
     }
 
     @Override
@@ -47,6 +47,7 @@ public class JDBCProductDao implements ProductDao {
              PreparedStatement preparedStatement = connection.prepareStatement(ADD)) {
             preparedStatement.setString(1, product.getName());
             preparedStatement.setDouble(2, product.getPrice());
+            preparedStatement.setTimestamp(3, Timestamp.valueOf(product.getCreationDate()));
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
