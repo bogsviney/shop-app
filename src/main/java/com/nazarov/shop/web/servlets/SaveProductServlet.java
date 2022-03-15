@@ -23,7 +23,7 @@ public class SaveProductServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (securityService.checkUserToken(request, securityService.getUserTokens())) {
+        if (securityService.checkUserToken(securityService.getUserToken())) {
             PageGenerator pageGenerator = PageGenerator.instance();
             String page = pageGenerator.getPage("products_save.html");
             response.getWriter().write(page);

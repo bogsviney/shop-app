@@ -22,7 +22,7 @@ public class EditProductServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, IOException {
-        if (securityService.checkUserToken(request, securityService.getUserTokens())) {
+        if (securityService.checkUserToken(securityService.getUserToken())) {
         PageGenerator pageGenerator = PageGenerator.instance();
         int id = Integer.parseInt(request.getParameter("id"));
         System.out.println("Edit product with id: " + id);

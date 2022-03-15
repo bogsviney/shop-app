@@ -1,13 +1,18 @@
 package com.nazarov.shop.service.security;
 
-import jakarta.servlet.http.*;
+import com.nazarov.shop.service.UserService;
 
 import java.util.*;
 
 public class SecurityService {
 
+    private UserService userService;
     private List<String> userTokens = new ArrayList<>();
     private String userToken;
+
+    public SecurityService(UserService userService) {
+        this.userService = userService;
+    }
 
     public String generateUserToken() {
         userToken = UUID.randomUUID().toString();
@@ -18,31 +23,23 @@ public class SecurityService {
         userTokens.add(userToken);
     }
 
-    public void generateAndAddUserTokenToUserTokensList() {
-        addUserToken(generateUserToken());
-    }
-
-    public List<String> getUserTokens() {
-        return userTokens;
-    }
-
-    public String getUserToken(){
+    public String getUserToken() {
         return userToken;
     }
 
-    public boolean checkUserToken(HttpServletRequest request, List<String> userTokens) {
-        boolean isAuth = false;
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("user-token")) {
-                    if (userTokens.contains(cookie.getValue())) {
-                        isAuth = true;
-                    }
-                    break;
-                }
-            }
+    public boolean checkUserToken(String token) {
+        return userTokens.contains(token);
+    }
+
+    public String login(String email, String password) {
+        if (userService.checkUser(email, password)) {
+            String token = getUserToken();
+            addUserToken(token);
+            System.out.println("LOGGED IN! WELCOME!");
+            return token;
+        } else {
+            System.out.println("LOGIN FAILED, TRY AGAIN!");
+            return null;
         }
-        return isAuth;
     }
 }

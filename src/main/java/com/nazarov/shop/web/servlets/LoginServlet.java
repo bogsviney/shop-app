@@ -1,6 +1,5 @@
 package com.nazarov.shop.web.servlets;
 
-import com.nazarov.shop.service.UserService;
 import com.nazarov.shop.service.security.SecurityService;
 import com.nazarov.shop.web.util.PageGenerator;
 
@@ -9,14 +8,11 @@ import jakarta.servlet.http.*;
 
 import java.io.IOException;
 
-
 public class LoginServlet extends HttpServlet {
 
     private final SecurityService securityService;
-    private final UserService userService;
 
-    public LoginServlet(UserService userService, SecurityService securityService) {
-        this.userService = userService;
+    public LoginServlet(SecurityService securityService) {
         this.securityService = securityService;
     }
 
@@ -36,17 +32,11 @@ public class LoginServlet extends HttpServlet {
         System.out.println("EMAIL: " + email);
         System.out.println("PASSWORD: " + password);
 
-        if (userService.checkUser(email, password)) {
-            securityService.generateAndAddUserTokenToUserTokensList();
-            System.out.println("USER TOKEN:" + securityService.getUserToken());
-            Cookie cookie = new Cookie("user-token", securityService.getUserToken());
-            response.addCookie(cookie);
-            System.out.println("LOGGED IN! WELCOME!");
-            response.sendRedirect("/products");
-        } else {
-            System.out.println("EMAIL OR PASSWORD INCORRECT");
-            response.sendRedirect("/login");
-        }
+        String token = securityService.login(email, password);
+        Cookie cookie = new Cookie("user-token", token);
+        response.addCookie(cookie);
+
+        response.sendRedirect("/products");
     }
 }
 

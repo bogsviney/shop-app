@@ -38,9 +38,9 @@ public class Starter {
         ProductService productService = new ProductService(productDao);
         UserService userService = new UserService(userDao);
 
-        SecurityService securityService = new SecurityService();
+        SecurityService securityService = new SecurityService(userService);
 
-        LoginServlet loginServlet = new LoginServlet(userService, securityService);
+        LoginServlet loginServlet = new LoginServlet(securityService);
 
         ProductServlet productServlet = new ProductServlet(productService);
 
