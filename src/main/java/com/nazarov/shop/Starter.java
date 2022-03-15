@@ -33,7 +33,8 @@ public class Starter {
 
 
         ProductDao productDao = new JDBCProductDao(connectionFactory);
-        UserDao userDao = new JDBCUserDao(connectionFactory);
+        PasswordEncoder passwordEncoder = new PasswordEncoder();
+        UserDao userDao = new JDBCUserDao(connectionFactory, passwordEncoder);
 
         ProductService productService = new ProductService(productDao);
         UserService userService = new UserService(userDao);
