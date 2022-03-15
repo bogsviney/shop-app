@@ -33,7 +33,7 @@ public class SecurityService {
 
     public String login(String email, String password) {
         if (userService.checkUser(email, password)) {
-            String token = getUserToken();
+            String token = generateUserToken();
             addUserToken(token);
             System.out.println("LOGGED IN! WELCOME!");
             return token;
