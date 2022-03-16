@@ -20,6 +20,8 @@ public class LoginFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
+        String requestUri = request.getRequestURI();
+
         boolean isAuth = false;
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
@@ -32,10 +34,16 @@ public class LoginFilter implements Filter {
                 }
             }
         }
-        if (isAuth) {
+
+        if (requestUri.equals("/products")) {
             filterChain.doFilter(request, response);
         } else {
-            response.sendRedirect("/login");
+            if (isAuth) {
+                filterChain.doFilter(request, response);
+            } else {
+                response.sendRedirect("/login");
+            }
+            return;
         }
     }
 }

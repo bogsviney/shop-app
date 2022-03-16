@@ -33,9 +33,14 @@ public class LoginServlet extends HttpServlet {
         System.out.println("PASSWORD: " + password);
 
         String token = securityService.login(email, password);
-        Cookie cookie = new Cookie("user-token", token);
-        response.addCookie(cookie);
-        response.sendRedirect("/products");
+
+        if (token != null) {
+            Cookie cookie = new Cookie("user-token", token);
+            response.addCookie(cookie);
+            response.sendRedirect("/products");
+        } else {
+            response.sendRedirect("/login");
+        }
     }
 }
 
