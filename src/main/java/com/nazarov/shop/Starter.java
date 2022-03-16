@@ -4,12 +4,15 @@ import com.nazarov.shop.config.PropertiesReader;
 import com.nazarov.shop.dao.*;
 import com.nazarov.shop.dao.jdbc.*;
 import com.nazarov.shop.service.*;
+import com.nazarov.shop.web.LoginFilter;
 import com.nazarov.shop.web.servlets.*;
 import com.nazarov.shop.service.security.SecurityService;
+import jakarta.servlet.DispatcherType;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.*;
 
 
+import java.util.EnumSet;
 import java.util.Properties;
 
 public class Starter {
@@ -53,11 +56,13 @@ public class Starter {
 
         ServletContextHandler contextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
 
-        contextHandler.addServlet(new ServletHolder(loginServlet), "/login");
         contextHandler.addServlet(new ServletHolder(productServlet), "/products");
+        contextHandler.addServlet(new ServletHolder(loginServlet), "/login");
         contextHandler.addServlet(new ServletHolder(saveProductServlet), "/products/add");
         contextHandler.addServlet(new ServletHolder(editProductServlet), "/products/edit/*");
         contextHandler.addServlet(new ServletHolder(deleteProductServlet), "/products/delete/*");
+
+        contextHandler.addFilter(new FilterHolder(new LoginFilter(securityService)),"products/*", EnumSet.of(DispatcherType.REQUEST));
 
         Server server = new Server(9898);
         server.setHandler(contextHandler);

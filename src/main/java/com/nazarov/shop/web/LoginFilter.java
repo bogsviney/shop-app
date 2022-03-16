@@ -34,7 +34,7 @@ public class LoginFilter implements Filter {
         }
         if (isAuth) {
             filterChain.doFilter(request, response);
-        }else {
+        } else {
             response.sendRedirect("/login");
         }
     }
