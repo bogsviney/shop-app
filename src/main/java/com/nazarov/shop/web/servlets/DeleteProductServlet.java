@@ -20,15 +20,11 @@ public class DeleteProductServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (securityService.checkUserToken(securityService.getUserToken())) {
-            String pathInformation = request.getPathInfo();
-            int index = pathInformation.lastIndexOf("/");
-            int id = Integer.parseInt(pathInformation.substring(index + 1));
-            productService.delete(id);
-            System.out.println("DELETE product with id: " + id);
-            response.sendRedirect("/products");
-        } else {
-            response.sendRedirect("/login");
-        }
+        String pathInformation = request.getPathInfo();
+        int index = pathInformation.lastIndexOf("/");
+        int id = Integer.parseInt(pathInformation.substring(index + 1));
+        productService.delete(id);
+        System.out.println("DELETE product with id: " + id);
+        response.sendRedirect("/products");
     }
 }

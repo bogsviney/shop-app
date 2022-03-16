@@ -7,6 +7,7 @@ import com.nazarov.shop.web.util.PageGenerator;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
+
 import java.io.IOException;
 import java.util.*;
 
@@ -22,7 +23,6 @@ public class EditProductServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, IOException {
-        if (securityService.checkUserToken(securityService.getUserToken())) {
         PageGenerator pageGenerator = PageGenerator.instance();
         int id = Integer.parseInt(request.getParameter("id"));
         System.out.println("Edit product with id: " + id);
@@ -31,9 +31,6 @@ public class EditProductServlet extends HttpServlet {
         parameters.put("product", productToEdit);
         String page = pageGenerator.getPage("products_edit.html", parameters);
         response.getWriter().write(page);
-        } else {
-            response.sendRedirect("/login");
-        }
     }
 
     @Override
