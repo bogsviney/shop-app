@@ -9,7 +9,6 @@ public class SecurityService {
 
     private UserService userService;
     private List<Session> sessions = new ArrayList<>();
-    Session session;
 
     public SecurityService(UserService userService) {
         this.userService = userService;
@@ -18,13 +17,13 @@ public class SecurityService {
     public void generateAndAddUserTokenToSession(Session session) {
         String token = UUID.randomUUID().toString();
         session.token = token;
-        session.expireDate = LocalDateTime.now();
+        session.expireDate = LocalDateTime.now().plusMinutes(15);
     }
 
     public String login(String email, String password) {
 
         if (userService.checkUser(email, password)) {
-            session = new Session();
+            Session session = new Session();
             generateAndAddUserTokenToSession(session);
             sessions.add(session);
             System.out.println("LOGGED IN! WELCOME!");
@@ -40,6 +39,5 @@ public class SecurityService {
                 .filter(session -> session.token.equals(token))
                 .anyMatch(session -> session.expireDate.isAfter(LocalDateTime.now()));
     }
-
 }
 

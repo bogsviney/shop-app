@@ -1,9 +1,7 @@
 package com.nazarov.shop.web.servlets;
 
 import com.nazarov.shop.service.security.SecurityService;
-import com.nazarov.shop.service.security.Session;
 import com.nazarov.shop.web.util.PageGenerator;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 
@@ -37,7 +35,7 @@ public class LoginServlet extends HttpServlet {
 
         if (token != null) {
             Cookie cookie = new Cookie("user-token", token);
-            cookie.setMaxAge(1800);
+            cookie.setMaxAge(900);
             response.addCookie(cookie);
             response.sendRedirect("/products");
         } else {
