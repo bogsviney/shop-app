@@ -27,7 +27,7 @@ public class LoginFilter implements Filter {
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals("user-token")) {
-                    if (securityService.checkUserToken(cookie.getValue())) {
+                    if (securityService.isTokenValid(cookie.getValue())) {
                         isAuth = true;
                     }
                     break;
