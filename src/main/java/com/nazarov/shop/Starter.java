@@ -44,15 +44,19 @@ public class Starter {
 
         SecurityService securityService = new SecurityService(userService);
 
+        CartService cartService = new CartService();
+
         LoginServlet loginServlet = new LoginServlet(securityService);
 
         ProductServlet productServlet = new ProductServlet(productService);
 
         SaveProductServlet saveProductServlet = new SaveProductServlet(productService, securityService);
 
-        DeleteProductServlet deleteProductServlet = new DeleteProductServlet(productService, securityService);
+        DeleteProductServlet deleteProductServlet = new DeleteProductServlet(productService);
 
         EditProductServlet editProductServlet = new EditProductServlet(productService, securityService);
+
+        AddToCartServlet addToCartServlet = new AddToCartServlet(productService, cartService);
 
         ServletContextHandler contextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
 
@@ -61,7 +65,7 @@ public class Starter {
         contextHandler.addServlet(new ServletHolder(saveProductServlet), "/products/add");
         contextHandler.addServlet(new ServletHolder(editProductServlet), "/products/edit/*");
         contextHandler.addServlet(new ServletHolder(deleteProductServlet), "/products/delete/*");
-
+        contextHandler.addServlet(new ServletHolder(addToCartServlet), "/products/cart/*");
         contextHandler.addFilter(new FilterHolder(new LoginFilter(securityService)),"/products/*", EnumSet.of(DispatcherType.REQUEST));
 
         Server server = new Server(9898);

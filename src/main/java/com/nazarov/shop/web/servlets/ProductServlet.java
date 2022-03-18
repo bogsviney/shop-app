@@ -3,10 +3,11 @@ package com.nazarov.shop.web.servlets;
 import com.nazarov.shop.entity.Product;
 import com.nazarov.shop.service.ProductService;
 import com.nazarov.shop.web.util.PageGenerator;
-
 import jakarta.servlet.http.*;
+
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
 
 public class ProductServlet extends HttpServlet {
 
@@ -25,4 +26,5 @@ public class ProductServlet extends HttpServlet {
         String page = pageGenerator.getPage("products.html", params);
         response.getWriter().write(page);
     }
+
 }

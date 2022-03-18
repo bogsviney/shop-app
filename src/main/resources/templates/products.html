@@ -13,7 +13,7 @@
 </head>
 <body>
 <body>
-<b>HERE WILL BE SHOWN ALL PRODUCTS</b>
+<b>in stock</b>
 
 <form action="/products/add" target="_self" style="float: right; margin-left: 60px;">
     <button class="btn btn-dark">Add Product</button>
@@ -45,26 +45,27 @@
         <td>${product.price}</td>
         <td>${product.creationDate}</td>
         <td>
-        <td>
+
+
         <td>
             <a class="btn btn-dark" href="/products/edit?id=${product.id}" target="_self"
                style="float: right; margin-left: 60px;">
-                <button class="btn btn-dark">EDIT</button>
+                <button class="btn btn-dark">&#9999 &#65039</button>
             </a>
-        </td>
-        </td>
-        </td>
-
-
 
         <td>
             <form action="/products/delete/${product.id}" target="_self" style="float: right; margin-left: 60px;">
-                <button class="btn btn-dark">DELETE</button>
+                <button class="btn btn-dark">&#10060</button>
             </form>
         </td>
+        <td>
+            <form action="/products/cart/${product.id}" target="_self" style="float: right; margin-left: 60px;">
+                <button class="btn btn-dark">&#128722</button>
+            </form>
 
-
+        </td>
     </tr>
+
     </#list>
 
     </tbody>

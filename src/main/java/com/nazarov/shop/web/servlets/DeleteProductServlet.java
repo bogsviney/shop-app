@@ -1,7 +1,6 @@
 package com.nazarov.shop.web.servlets;
 
 import com.nazarov.shop.service.ProductService;
-import com.nazarov.shop.service.security.SecurityService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 
@@ -9,13 +8,10 @@ import java.io.IOException;
 
 public class DeleteProductServlet extends HttpServlet {
 
-
     private ProductService productService;
-    public SecurityService securityService;
 
-    public DeleteProductServlet(ProductService productService, SecurityService securityService) {
+    public DeleteProductServlet(ProductService productService) {
         this.productService = productService;
-        this.securityService = securityService;
     }
 
     @Override

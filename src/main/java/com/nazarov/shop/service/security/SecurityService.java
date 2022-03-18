@@ -16,18 +16,17 @@ public class SecurityService {
 
     public void generateAndAddUserTokenToSession(Session session) {
         String token = UUID.randomUUID().toString();
-        session.token = token;
-        session.expireDate = LocalDateTime.now().plusMinutes(15);
+        session.setToken(token);
+        session.setExpireDate(LocalDateTime.now().plusMinutes(15));
     }
 
     public String login(String email, String password) {
-
         if (userService.checkUser(email, password)) {
             Session session = new Session();
             generateAndAddUserTokenToSession(session);
             sessions.add(session);
             System.out.println("LOGGED IN! WELCOME!");
-            return session.token;
+            return session.getToken();
         } else {
             System.out.println("LOGIN FAILED, TRY AGAIN!");
             return null;
@@ -36,8 +35,8 @@ public class SecurityService {
 
     public boolean isTokenValid(String token) {
         return sessions.stream()
-                .filter(session -> session.token.equals(token))
-                .anyMatch(session -> session.expireDate.isAfter(LocalDateTime.now()));
+                .filter(session -> session.getToken().equals(token))
+                .anyMatch(session -> session.getExpireDate().isAfter(LocalDateTime.now()));
     }
 }
 
