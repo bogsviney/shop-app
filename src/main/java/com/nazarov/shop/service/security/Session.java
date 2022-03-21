@@ -15,4 +15,5 @@ public class Session {
     private String token;
     private LocalDateTime expireDate;
     private List<Product> cart;
+    private Role role;
 }

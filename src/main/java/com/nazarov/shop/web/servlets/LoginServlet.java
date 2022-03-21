@@ -9,6 +9,7 @@ import java.io.IOException;
 
 public class LoginServlet extends HttpServlet {
 
+    public static final int COOKIE_EXPIRY_TIME_IN_SECONDS = 900;
     private final SecurityService securityService;
 
     public LoginServlet(SecurityService securityService) {
@@ -35,7 +36,7 @@ public class LoginServlet extends HttpServlet {
 
         if (token != null) {
             Cookie cookie = new Cookie("user-token", token);
-            cookie.setMaxAge(900);
+            cookie.setMaxAge(COOKIE_EXPIRY_TIME_IN_SECONDS);
             response.addCookie(cookie);
             response.sendRedirect("/products");
         } else {

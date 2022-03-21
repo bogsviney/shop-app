@@ -26,9 +26,11 @@ public class LoginFilter implements Filter {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
+                String token = cookie.getValue();
                 if (cookie.getName().equals("user-token")) {
-                    if (securityService.isTokenValid(cookie.getValue())) {
+                    if (securityService.isTokenValid(token)) {
                         isAuth = true;
+                        request.setAttribute("session",securityService.getSession(token));
                     }
                     break;
                 }
