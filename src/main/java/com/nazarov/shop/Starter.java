@@ -12,6 +12,7 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.*;
 
 
+import javax.swing.text.View;
 import java.util.EnumSet;
 import java.util.Properties;
 
@@ -58,6 +59,10 @@ public class Starter {
 
         AddToCartServlet addToCartServlet = new AddToCartServlet(productService, cartService, securityService);
 
+        DeleteFromCartServlet deleteFromCartServlet = new DeleteFromCartServlet(productService,cartService,securityService);
+
+        ViewCartServlet viewCartServlet = new ViewCartServlet(cartService, securityService);
+
         ServletContextHandler contextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
 
         contextHandler.addServlet(new ServletHolder(productServlet), "/products");
@@ -66,7 +71,9 @@ public class Starter {
         contextHandler.addServlet(new ServletHolder(editProductServlet), "/products/edit/*");
         contextHandler.addServlet(new ServletHolder(deleteProductServlet), "/products/delete/*");
         contextHandler.addServlet(new ServletHolder(addToCartServlet), "/products/cart/*");
-        contextHandler.addFilter(new FilterHolder(new LoginFilter(securityService)),"/products/*", EnumSet.of(DispatcherType.REQUEST));
+        contextHandler.addServlet(new ServletHolder(deleteFromCartServlet), "/products/cart/delete/*");
+        contextHandler.addServlet(new ServletHolder(viewCartServlet), "/products/cart");
+        contextHandler.addFilter(new FilterHolder(new LoginFilter(securityService)), "/products/*", EnumSet.of(DispatcherType.REQUEST));
 
         Server server = new Server(9898);
         server.setHandler(contextHandler);

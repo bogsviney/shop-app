@@ -9,19 +9,16 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
-    <title>Products</title>
+    <title>Cart</title>
 </head>
 <body>
 <body>
 <b>SHOP UPSKILL</b>
 
-<form action="/products/add" target="_self" style="float: right; margin-left: 60px;">
-    <button class="btn btn-dark">Add Product</button>
+<form action="/products" target="_self" style="float: right; margin-left: 60px;">
+    <button class="btn btn-dark">Back to products</button>
 </form>
-<form action="/products/cart" target="_self" style="float: right; margin-left: 60px;">
-    <button class="btn btn-dark">View cart</button>
-</form>
-<h1>ON SALE</h1>
+<h1>YOUR CART</h1>
 
 <table class="table table-dark table-striped">
     <thead>
@@ -48,26 +45,15 @@
         <td>${product.price}</td>
         <td>${product.creationDate}</td>
         <td>
-
+        <td>
+        <td>
 
         <td>
-            <a class="btn btn-dark" href="/products/edit?id=${product.id}" target="_self"
-               style="float: right; margin-left: 60px;">
-                <button class="btn btn-dark">&#9999 &#65039</button>
-            </a>
-
-        <td>
-            <form action="/products/delete/${product.id}" target="_self" style="float: right; margin-left: 60px;">
+            <form action="/products/cart/delete/${product.id}" target="_self" style="float: right; margin-left: 60px;">
                 <button class="btn btn-dark">&#10060</button>
             </form>
         </td>
-        <td>
-            <form action="/products/cart/${product.id}" target="_self" style="float: right; margin-left: 60px;">
-                <button class="btn btn-dark">&#128722</button>
-            </form>
-
-        </td>
-    </tr>
+        </tr>
 
     </#list>
 

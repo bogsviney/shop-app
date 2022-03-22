@@ -18,10 +18,4 @@ public class CartService {
         System.out.println("CART SERVICE: Product has been removed from cart");
         System.out.println(cart);
     }
-
-//    public List<Product> viewCart() {
-//        return cart.;
-//    }
-
-
  }
