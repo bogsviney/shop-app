@@ -1,6 +1,7 @@
 package com.nazarov.shop.service.security;
 
 import com.nazarov.shop.service.UserService;
+import jakarta.servlet.http.Cookie;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -42,13 +43,18 @@ public class SecurityService {
     }
 
     public Session getSession(String token) {
-        if (isTokenValid(token)) {
-            System.out.println("SECURITY SERVICE: token is valid");
-            return sessions.get(sessions.indexOf(token));
-        } else {
-            System.out.println("SECURITY SERVICE: token is not valid");
-            return null;
-        }
+        Session sessionToReturn = sessions.stream()
+                .filter(session -> token.equals(session.getToken()))
+                .findFirst()
+                .orElse(null);
+        return sessionToReturn;
+    }
+
+    public String getTokenFromCookies(Cookie[] cookies) {
+        return Arrays.stream(cookies)
+                .filter(cookie -> cookie.getName().equals("user-token"))
+                .findFirst()
+                .map(Cookie::getValue).orElse(null);
     }
 }
 

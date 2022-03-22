@@ -56,7 +56,7 @@ public class Starter {
 
         EditProductServlet editProductServlet = new EditProductServlet(productService, securityService);
 
-        AddToCartServlet addToCartServlet = new AddToCartServlet(productService, cartService);
+        AddToCartServlet addToCartServlet = new AddToCartServlet(productService, cartService, securityService);
 
         ServletContextHandler contextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
 
