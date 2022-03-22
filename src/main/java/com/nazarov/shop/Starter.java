@@ -4,7 +4,9 @@ import com.nazarov.shop.config.PropertiesReader;
 import com.nazarov.shop.dao.*;
 import com.nazarov.shop.dao.jdbc.*;
 import com.nazarov.shop.service.*;
-import com.nazarov.shop.web.LoginFilter;
+import com.nazarov.shop.web.filter.AdminFilter;
+import com.nazarov.shop.web.filter.LoginFilter;
+import com.nazarov.shop.web.filter.UserFilter;
 import com.nazarov.shop.web.servlets.*;
 import com.nazarov.shop.service.security.SecurityService;
 import jakarta.servlet.DispatcherType;
@@ -12,7 +14,6 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.*;
 
 
-import javax.swing.text.View;
 import java.util.EnumSet;
 import java.util.Properties;
 
@@ -74,6 +75,8 @@ public class Starter {
         contextHandler.addServlet(new ServletHolder(deleteFromCartServlet), "/products/cart/delete/*");
         contextHandler.addServlet(new ServletHolder(viewCartServlet), "/products/cart");
         contextHandler.addFilter(new FilterHolder(new LoginFilter(securityService)), "/products/*", EnumSet.of(DispatcherType.REQUEST));
+        contextHandler.addFilter(new FilterHolder(new AdminFilter(securityService)), "/products/**", EnumSet.of(DispatcherType.REQUEST));
+        contextHandler.addFilter(new FilterHolder(new UserFilter(securityService)), "/products/cart/**", EnumSet.of(DispatcherType.REQUEST));
 
         Server server = new Server(9898);
         server.setHandler(contextHandler);

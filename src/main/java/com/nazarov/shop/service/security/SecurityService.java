@@ -28,11 +28,23 @@ public class SecurityService {
             Session session = new Session();
             generateAndAddUserTokenToSession(session);
             sessions.add(session);
+            session.setRole(Role.valueOf(userService.getUserRole(email)));
+            System.out.println("SECURITY SERVICE: IN THIS SESSION ROLE SETTED TO: " + session.getRole().toString());
             System.out.println("SECURITY SERVICE: LOGGED IN! WELCOME!");
             return session.getToken();
         } else {
             System.out.println("SECURITY SERVICE: LOGIN FAILED, TRY AGAIN!");
             return null;
+        }
+    }
+
+    public Role getUserRole(Session session) {
+        if (session.getRole().equals(Role.USER)) {
+            return Role.USER;
+        } else if (session.getRole().equals(Role.ADMIN)) {
+            return Role.ADMIN;
+        } else {
+            return Role.GUEST;
         }
     }
 

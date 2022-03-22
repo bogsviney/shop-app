@@ -15,6 +15,7 @@ public class JDBCUserDao implements UserDao {
     private final PasswordEncoder passwordEncoder;
 
     private static final String FIND_USER_PASSWORD_BY_EMAIL = "SELECT id FROM users WHERE email =? AND password =?;";
+    private static final String GET_USER_ROLE_BY_EMAIL = "SELECT role FROM users WHERE email =?;";
 
     public JDBCUserDao(ConnectionFactory connectionFactory, PasswordEncoder passwordEncoder) {
         this.connectionFactory = connectionFactory;
@@ -28,17 +29,40 @@ public class JDBCUserDao implements UserDao {
              PreparedStatement preparedStatement = connection.prepareStatement(FIND_USER_PASSWORD_BY_EMAIL)) {
             preparedStatement.setString(1, email);
             preparedStatement.setString(2, passwordEncoder.encryptPassword(password));
-
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 isChecked = resultSet.next();
-                System.out.println("ACCESS ENABLE : " + isChecked);
+                System.out.println("JDBC USERDAO: ACCESS ENABLE : " + isChecked);
                 return isChecked;
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new RuntimeException("TROUBLE WITH CHECKING USER", e);
+            throw new RuntimeException("JDBC USERDAO: TROUBLE WITH CHECKING USER", e);
         }
     }
+
+    @Override
+    public String getUserRole(String email) {
+        try (Connection connection = connectionFactory.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(GET_USER_ROLE_BY_EMAIL)) {
+            preparedStatement.setString(1, email);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                String role = resultSet.getString("role");
+                if (role == null) {
+                    throw new RuntimeException("JDBC USERDAO: WE HAVE NO USER WITH EMAIL " + email);
+                } else {
+                    System.out.println("JDBC USERDAO: ROLE in DB -> " + role);
+                    return role;
+                }
+            }
+            return null;
+
+        } catch (SQLException e) {
+            throw new RuntimeException("JDBC USERDAO: TROUBLE WITH GETTING USER ROLE");
+        }
+
+    }
+
 }
 
