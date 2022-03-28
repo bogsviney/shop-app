@@ -46,8 +46,7 @@
         <th scope="row">${product.id}</th>
         <td>${product.name}</td>
         <td>${product.price}</td>
-        <td>${product.creationDate}</td>
-        <td>
+        <td>${product.creationDate?datetime.iso?string('dd MMM yyyy')}<td>
 
 
         <td>

@@ -1,6 +1,7 @@
 package com.nazarov.shop.dao;
 
 import com.nazarov.shop.entity.Product;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 

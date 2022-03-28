@@ -2,9 +2,12 @@ package com.nazarov.shop.service;
 
 import com.nazarov.shop.dao.ProductDao;
 import com.nazarov.shop.entity.Product;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
 
 public class ProductService {
 
