@@ -20,6 +20,7 @@ public class ProductService {
 
     public List<Product> findAll() {
         List<Product> products = productDao.findAll();
+        System.out.println("PRODUCT SERVICE: FIND ALL PRODUCTS");
         return products;
     }
 
@@ -35,10 +36,12 @@ public class ProductService {
 
     public void delete(int id) {
         productDao.delete(id);
+        System.out.println("PRODUCT SERVICE: DELETE PRODUCT");
     }
 
     public Product findById(int id) {
         Product product = productDao.findById(id);
+        System.out.println("PRODUCT SERVICE: FIND BY ID: " + id);
         return product;
     }
 }

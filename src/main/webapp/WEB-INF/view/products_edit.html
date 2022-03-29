@@ -12,12 +12,12 @@
     <title>Edit</title>
 </head>
 <body>
-<form action="/products/add" target="_self" style="float: right; margin-left: 60px;">
+<form action="/products" target="_self" style="float: right; margin-left: 60px;">
     <button  class="btn btn-dark">Return to products</button>
 </form>
 <h1>Udate data for product with ID: ${product.id}</h1>
 
-<form action="/products/edit" method="POST">
+<form action="/products/edit" method="PUT">
     <div class="form-group">
         <input name="id" value="${product.id}" type="hidden">
         <label for="inputName">Name</label>
