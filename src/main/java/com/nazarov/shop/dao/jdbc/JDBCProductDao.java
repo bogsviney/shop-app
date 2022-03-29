@@ -3,11 +3,14 @@ package com.nazarov.shop.dao.jdbc;
 import com.nazarov.shop.dao.*;
 import com.nazarov.shop.dao.jdbc.mapper.ProductRowMapper;
 import com.nazarov.shop.entity.Product;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.*;
 
+@Repository
 public class JDBCProductDao implements ProductDao {
 
     private final DataSource CONNECTION_FACTORY;
@@ -20,6 +23,7 @@ public class JDBCProductDao implements ProductDao {
     private static final String EDIT = "UPDATE products SET name = ?, price = ? WHERE id = ?;";
     private static final String DELETE_BY_ID = "DELETE FROM products WHERE id = ?;";
 
+    @Autowired
     public JDBCProductDao(DataSource connectionFactory) {
         this.CONNECTION_FACTORY = connectionFactory;
     }
